@@ -1,4 +1,5 @@
 import math
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -18,36 +19,53 @@ def scale_point(x, y, z, sx=1, sy=1, sz=1):
 
 
 def rotate_y(x, y, z, theta):
-    local_z = z - 5
-
-    cos_theta = math.cos(theta)
-    sin_theta = math.sin(theta)
-
-    rotated_x = cos_theta * x + sin_theta * local_z
-    rotated_z = -sin_theta * x + cos_theta * local_z
-
-    return rotated_x, y, rotated_z + 5
-
-def rotate_x(x, y, z, theta):
-    local_z = z - 5
-
     c = math.cos(theta)
     s = math.sin(theta)
 
-    rotated_y = c * y - s * local_z
-    rotated_z = s * y + c * local_z
+    rotation = np.array([
+        [ c, 0, s],
+        [ 0, 1, 0],
+        [-s, 0, c],
+    ])
 
-    return x, rotated_y, rotated_z + 5
+    center = np.array([0, 0, 5])
+    point = np.array([x, y, z])
+
+    rotated = rotation @ (point - center) + center
+    return tuple(rotated)
+
+def rotate_x(x, y, z, theta):
+    c = math.cos(theta)
+    s = math.sin(theta)
+
+    rotation = np.array([
+        [1, 0,  0],
+        [0, c, -s],
+        [0, s,  c],
+    ])
+
+    center = np.array([0, 0, 5])
+    point = np.array([x, y, z])
+
+    rotated = rotation @ (point - center) + center
+    return tuple(rotated)
 
 
 def rotate_z(x, y, z, theta):
     c = math.cos(theta)
     s = math.sin(theta)
 
-    rotated_x = c * x - s * y
-    rotated_y = s * x + c * y
+    rotation = np.array([
+        [c, -s, 0],
+        [s,  c, 0],
+        [0,  0, 1],
+    ])
 
-    return rotated_x, rotated_y, z
+    center = np.array([0, 0, 5])
+    point = np.array([x, y, z])
+
+    rotated = rotation @ (point - center) + center
+    return tuple(rotated)
 
 
 points = [
