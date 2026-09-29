@@ -1,16 +1,8 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from transforms import translate, scale_point, rotate_point
-
-def projectPoint(x, y, z, fx=150, fy=150, cx=128, cy=128):
-    if z <= 0:
-        return None
-
-    u = fx * x / z + cx
-    v = cy - fy * y / z
-    return u, v
-
+from transforms import translatePoint, scalePoint, rotatePoint
+from camera import projectPoint
 
 points = [
     [-1, -1, 4],
@@ -42,8 +34,6 @@ theta = math.radians(30)
 projected_points = []
 
 for x, y, z in points:
-    x, y, z = scale_point(x, y, z, sx=1.5, sy=1, sz=1)
-    x, y, z = rotate_point(x, y, z, angle_x=theta, angle_y=theta+30)
     projected_points.append(projectPoint(x, y, z))
 
 

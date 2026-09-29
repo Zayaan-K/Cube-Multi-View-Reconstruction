@@ -1,13 +1,13 @@
 import math
 import numpy as np
 
-def translate(x, y, z, tx=0, ty=0, tz=0):
+def translatePoint(x, y, z, tx=0, ty=0, tz=0):
     return x + tx, y + ty, z + tz
 
-def scale_point(x, y, z, sx=1, sy=1, sz=1):
+def scalePoint(x, y, z, sx=1, sy=1, sz=1):
     return sx * x, sy * y, sz * (z - 5) + 5
 
-def rotate_point(x, y, z, angle_x=0, angle_y=0, angle_z=0,
+def rotatePoint(x, y, z, angle_x=0, angle_y=0, angle_z=0,
                  center=(0, 0, 5)):
     cx, sx = math.cos(angle_x), math.sin(angle_x)
     cy, sy = math.cos(angle_y), math.sin(angle_y)
