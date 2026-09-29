@@ -17,55 +17,35 @@ def translate(x, y, z, tx=0, ty=0, tz=0):
 def scale_point(x, y, z, sx=1, sy=1, sz=1):
     return sx * x, sy * y, sz * (z - 5) + 5
 
+def rotate_point(x, y, z, angle_x=0, angle_y=0, angle_z=0,
+                 center=(0, 0, 5)):
+    cx, sx = math.cos(angle_x), math.sin(angle_x)
+    cy, sy = math.cos(angle_y), math.sin(angle_y)
+    cz, sz = math.cos(angle_z), math.sin(angle_z)
 
-def rotate_y(x, y, z, theta):
-    c = math.cos(theta)
-    s = math.sin(theta)
-
-    rotation = np.array([
-        [ c, 0, s],
-        [ 0, 1, 0],
-        [-s, 0, c],
+    Rx = np.array([
+        [1,  0,   0],
+        [0, cx, -sx],
+        [0, sx,  cx],
     ])
 
-    center = np.array([0, 0, 5])
-    point = np.array([x, y, z])
-
-    rotated = rotation @ (point - center) + center
-    return tuple(rotated)
-
-def rotate_x(x, y, z, theta):
-    c = math.cos(theta)
-    s = math.sin(theta)
-
-    rotation = np.array([
-        [1, 0,  0],
-        [0, c, -s],
-        [0, s,  c],
+    Ry = np.array([
+        [ cy, 0, sy],
+        [  0, 1,  0],
+        [-sy, 0, cy],
     ])
 
-    center = np.array([0, 0, 5])
-    point = np.array([x, y, z])
-
-    rotated = rotation @ (point - center) + center
-    return tuple(rotated)
-
-
-def rotate_z(x, y, z, theta):
-    c = math.cos(theta)
-    s = math.sin(theta)
-
-    rotation = np.array([
-        [c, -s, 0],
-        [s,  c, 0],
-        [0,  0, 1],
+    Rz = np.array([
+        [cz, -sz, 0],
+        [sz,  cz, 0],
+        [ 0,   0, 1],
     ])
 
-    center = np.array([0, 0, 5])
+    rotation = Rz @ Ry @ Rx
+    center = np.array(center)
     point = np.array([x, y, z])
 
-    rotated = rotation @ (point - center) + center
-    return tuple(rotated)
+    return tuple(rotation @ (point - center) + center)
 
 
 points = [
@@ -99,10 +79,7 @@ projected_points = []
 
 for x, y, z in points:
     x, y, z = scale_point(x, y, z, sx=1.5, sy=1, sz=1)
-
-    x, y, z = rotate_x(x, y, z, theta)
-
-
+    x, y, z = rotate_point(x, y, z, angle_x=theta, angle_y=theta+30)
     projected_points.append(projectPoint(x, y, z))
 
 
@@ -128,6 +105,6 @@ plt.ylim(256, 0)
 plt.gca().set_aspect("equal")
 plt.xlabel("u (pixels)")
 plt.ylabel("v (pixels)")
-plt.title("Projected wireframe cube")
+plt.title("Projected cube")
 plt.grid()
 plt.show()
