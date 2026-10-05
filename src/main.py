@@ -10,11 +10,14 @@ from render import drawWireframe
 def main():
     points, edges = createCube()
 
+    # Object settings; rotation angles are in radians.
     scale = (1, 1, 1)
     angles = (0, math.radians(0), 0)
     translation = (0, 0, 0)
 
-    camera = Camera(position=(0, 0, 0), angles=(0, 0, 0))
+    # Both cameras look along positive Z from different X positions.
+    cameraA = Camera(position=(-1, 0, 0))
+    cameraB = Camera(position=(1, 0, 0))
 
     transformed_points = []
     for point in points:
@@ -23,8 +26,14 @@ def main():
         point = translatePoint(*point, *translation)
         transformed_points.append(point)
 
-    projected_points = [camera.project(point) for point in transformed_points]
-    drawWireframe(projected_points, edges)
+    projectedA = [cameraA.project(point) for point in transformed_points]
+    projectedB = [cameraB.project(point) for point in transformed_points]
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+    drawWireframe(projectedA, edges, ax=axes[0], title="Camera A")
+    drawWireframe(projectedB, edges, ax=axes[1], title="Camera B")
+
+    plt.tight_layout()
     plt.show()
 
 
