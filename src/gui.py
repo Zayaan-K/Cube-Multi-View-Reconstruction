@@ -11,12 +11,11 @@ from PySide6.QtCore import Qt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
-from geometry import createCube
-from transforms import translatePoint, scalePoint, rotatePoint
-from camera import Camera
-from render import drawWireframe
-from triangulation import triangulatePoint
-
+from projection.geometry import createCube
+from projection.transforms import translatePoint, scalePoint, rotatePoint
+from projection.camera import Camera
+from projection.render import drawWireframe
+from projection.triangulation import triangulatePoint
 
 class Viewer(QMainWindow):
     def __init__(self):

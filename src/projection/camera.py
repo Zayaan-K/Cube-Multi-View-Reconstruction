@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import numpy as np
 
-from transforms import rotatePoint
+from .transforms import rotatePoint
 
 
 def projectPoint(x, y, z, fx=150, fy=150, cx=128, cy=128):
