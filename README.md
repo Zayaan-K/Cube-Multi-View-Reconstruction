@@ -2,6 +2,9 @@
 
 A Python project that explores how two 2D camera views can be used to reconstruct a 3D cube. It combines custom perspective projection, synthetic training data, a PyTorch reconstruction model, viewable using a PySide6 interface.
 
+
+![Cube reconstruction preview](demo/readmedemo.png)
+
 ## Features
 
 - Cube translation, rotation, and scaling using vector and matrix operations.
