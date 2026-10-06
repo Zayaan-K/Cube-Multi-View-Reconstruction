@@ -1,11 +1,12 @@
-name: gaussian-renderer
+name: cubeview
 channels:
   - defaults
 dependencies:
   - python=3.11
-  - numpy
-  - matplotlib
-  - pyside6
-  - torch
-
+  - pip
+  - pip:
+      - numpy
+      - matplotlib
+      - pyside6
+      - torch
   
