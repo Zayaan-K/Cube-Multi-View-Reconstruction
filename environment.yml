@@ -6,5 +6,6 @@ dependencies:
   - numpy
   - matplotlib
   - pyside6
+  - torch
 
   
